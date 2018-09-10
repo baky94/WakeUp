@@ -1,9 +1,13 @@
-package com.example.baky.wakeup
+package com.example.baky.wakeup.View
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.baky.wakeup.R
+import com.example.baky.wakeup.View.Fragment.AlarmTab
+import com.example.baky.wakeup.View.Fragment.CalendarTab
+import com.example.baky.wakeup.View.Fragment.GraphTab
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
