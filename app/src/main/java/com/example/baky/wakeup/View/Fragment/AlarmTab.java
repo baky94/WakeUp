@@ -27,8 +27,7 @@ public class AlarmTab extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                tv.setText("position : " + position +
-                        parent.getItemAtPosition(position));
+           //     tv.setText("position : " + position + parent.getItemAtPosition(position));
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
