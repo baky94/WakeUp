@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when(p0){
             btn_main_alarm ->{
                 replaceFragment(AlarmTab())
+                //현우 바보
             }
 
             btn_main_calendar -> {
