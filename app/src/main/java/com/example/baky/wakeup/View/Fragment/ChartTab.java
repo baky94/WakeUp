@@ -44,14 +44,14 @@ public class ChartTab extends android.support.v4.app.Fragment{
         LineDataSet dataset = new LineDataSet(entries, "# of Calls");
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-        labels.add("July");
-        labels.add("August");
+        labels.add("12");
+        labels.add("1");
+        labels.add("2");
+        labels.add("3");
+        labels.add("4");
+        labels.add("5");
+        labels.add("6");
+        labels.add("7");
         labels.add("September");
         labels.add("October");
         labels.add("November");
