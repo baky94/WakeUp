@@ -1,12 +1,15 @@
 package com.example.baky.wakeup.View.Fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.baky.wakeup.R;
+import com.example.baky.wakeup.View.Calendar.CalendarData;
+import com.example.baky.wakeup.View.HeartBeat;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -27,6 +30,12 @@ public class ChartTab extends android.support.v4.app.Fragment{
         View view = inflater.inflate(R.layout.fragment_chart_tab, container, false);
 
         LineChart lineChart = (LineChart) view.findViewById(R.id.fragment_chart);
+//
+//        Intent intent = Intent.getIntent();
+//        HeartBeat HBeat;
+//        HBeat = (HeartBeat) intent.getSerializableExtra("heart");
+//        ArrayList<HeartBeat> calendarList = new ArrayList<HeartBeat>();
+
 
         ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(4f, 0));
@@ -52,10 +61,10 @@ public class ChartTab extends android.support.v4.app.Fragment{
         labels.add("5");
         labels.add("6");
         labels.add("7");
-        labels.add("September");
-        labels.add("October");
-        labels.add("November");
-        labels.add("December");
+        labels.add("8");
+        labels.add("9");
+        labels.add("10");
+        labels.add("11r");
 
         LineData data = new LineData(labels, dataset);
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //

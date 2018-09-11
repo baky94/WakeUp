@@ -1,5 +1,6 @@
 package com.example.baky.wakeup.View.Fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -18,8 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
+import com.example.baky.wakeup.View.Calendar.CalendarData;
+import com.example.baky.wakeup.View.HeartBeat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -146,7 +150,7 @@ public class GraphTab extends Fragment {
 
 
         @Override
-        protected void onPostExecute(Boolean isSucess) {
+        protected void onPostExecute(Boolean isSucess) { // 블루투스 연결 실패
 
             if ( isSucess ) {
                 connected(mBluetoothSocket);
@@ -219,7 +223,12 @@ public class GraphTab extends Fragment {
                                 System.arraycopy(readBuffer, 0, encodedBytes, 0,
                                         encodedBytes.length);
                                 String recvMessage = new String(encodedBytes, "UTF-8");
+                                HeartBeat HBeat = new HeartBeat(recvMessage);
 
+                                Intent intent = new Intent(getActivity(), ChartTab.class);
+                                intent.putExtra("heart", HBeat);
+                                startActivity(intent);
+                                //Toast.makeText(,recvMessage , Toast.LENGTH_SHORT).show();
                                 readBufferPosition = 0;
 
                                 Log.d(TAG, "recv message: " + recvMessage);
@@ -250,7 +259,7 @@ public class GraphTab extends Fragment {
         protected void onPostExecute(Boolean isSucess) {
             super.onPostExecute(isSucess);
 
-            if ( !isSucess ) {
+            if ( !isSucess ) { // 연결 끊겼을 때
 
 
                 closeSocket();
@@ -287,6 +296,7 @@ public class GraphTab extends Fragment {
 
             try {
                 mOutputStream.write(msg.getBytes());
+                Log.d("ddd", msg);
                 mOutputStream.flush();
             } catch (IOException e) {
                 Log.e(TAG, "Exception during send", e );
@@ -297,7 +307,7 @@ public class GraphTab extends Fragment {
     }
 
 
-    public void showPairedDevicesListDialog()
+    public void showPairedDevicesListDialog() // 블루투스 디바이스 연결
     {
         Set<BluetoothDevice> devices = mBluetoothAdapter.getBondedDevices();
         final BluetoothDevice[] pairedDevices = devices.toArray(new BluetoothDevice[0]);
