@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.MainActivity">
+        <activity android:name=".View.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,10 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.Calendar.CalendarAlarm" />
-
-        <activity
-            android:name=".View.Fragment.mainLayout"
-            android:label="@string/title_activity_main_layout" />
+        <activity android:name=".View.Fragment.AlarmListView.AlarmAddActivity" />
+        <activity android:name=".View.MainActivity"></activity>
     </application>
 
 </manifest>

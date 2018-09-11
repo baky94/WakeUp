@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.akexorcist:bluetoothspp:1.0.0'
     implementation 'org.quanqi:mpandroidchart:1.7.5'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }

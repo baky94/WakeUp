@@ -3,19 +3,23 @@ package com.example.baky.wakeup.View
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.example.baky.wakeup.R
-import com.example.baky.wakeup.View.Fragment.AlarmTab
-import com.example.baky.wakeup.View.Fragment.CalendarTab
-import com.example.baky.wakeup.View.Fragment.ChartTab
-import com.example.baky.wakeup.View.Fragment.GraphTab
+import com.example.baky.wakeup.View.Fragment.*
+import com.example.baky.wakeup.View.Fragment.AlarmListView.AlarmAdapter
+import com.example.baky.wakeup.View.Fragment.AlarmListView.AlarmData
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_alarm_list.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    lateinit var alarmItems : ArrayList<AlarmData>
+
     override fun onClick(p0: View?) {
         when(p0){
             btn_main_alarm ->{
-                replaceFragment(AlarmTab())
+                replaceFragment(AlarmList())
                 //현우 바보
             }
 
@@ -33,11 +37,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        addFragment(AlarmTab())
+        addFragment(AlarmList())
 
         btn_main_alarm.setOnClickListener(this)
         btn_main_graph.setOnClickListener(this)
         btn_main_calendar.setOnClickListener(this)
+
+
+
+
+
     }
 
 
