@@ -31,9 +31,11 @@ public class AlarmTab extends Fragment {
             public void onClick(View view) {
                 Log.d("dd","asdf");
                 Intent intent = new Intent(getActivity(),mainLayout.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
             }
         });
+
+        Intent receive_intent = new mainLayout().getIntent();
 
 
 

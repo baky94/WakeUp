@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="80dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
 
     <LinearLayout
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
-                android:layout_marginLeft="20dp"
                 android:id="@+id/item_alarm_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="18:00"
                 android:textColor="#000000"
-                android:text="18:00"/>
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/item_alarm_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/item_alarm_time"
+                android:text=" " />
 
         </RelativeLayout>
 
         <TextView
-            android:layout_marginLeft="20dp"
             android:id="@+id/item_alarm_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2018-06-03"/>
+            android:layout_marginLeft="20dp"
+            android:text="2018-06-03" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_alarm_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="way" />
+
+            <TextView
+                android:id="@+id/item_alarm_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="admin" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

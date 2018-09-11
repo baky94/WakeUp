@@ -11,6 +11,9 @@ class AlarmAdapter(private var alarmItems : ArrayList<AlarmData>) : RecyclerView
         if(holder is AlarmViewHolder) {
             holder.alarmTime.text = alarmItems[position].time
             holder.alarmDate.text = alarmItems[position].date
+            holder.alarmWay.text = alarmItems[position].way
+            holder.alarmAdmin.text = alarmItems[position].admin
+            holder.alarmDays.text = alarmItems[position].days
         }
 
     }

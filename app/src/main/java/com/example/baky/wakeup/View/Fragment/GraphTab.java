@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
 import com.example.baky.wakeup.View.Calendar.CalendarData;
-import com.example.baky.wakeup.View.HeartBeat;
 
 import java.io.IOException;
 import java.io.InputStream;

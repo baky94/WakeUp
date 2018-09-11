@@ -3,7 +3,7 @@ package com.example.baky.wakeup.View
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View
 import com.example.baky.wakeup.R
 import com.example.baky.wakeup.View.Fragment.*
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when(p0){
             btn_main_alarm ->{
-                replaceFragment(AlarmList())
+                replaceFragment(AlarmListTest())
                 //현우 바보
             }
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        addFragment(AlarmList())
+        addFragment(AlarmListTest())
 
         btn_main_alarm.setOnClickListener(this)
         btn_main_graph.setOnClickListener(this)

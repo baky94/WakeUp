@@ -45,8 +45,8 @@ public class mainLayout extends Activity {
 
 
         TimePicker timeselect = (TimePicker)findViewById(R.id.timePicker);
-        int hour = timeselect.getHour();
-        int minute = timeselect.getMinute();
+        final int hour = timeselect.getHour();
+        final int minute = timeselect.getMinute();
 
         CheckBox SUN,MON,TUE,WED,THU,FRI,SAT;
         SUN = (CheckBox)findViewById(R.id.checkBox8);
@@ -57,22 +57,63 @@ public class mainLayout extends Activity {
         FRI = (CheckBox)findViewById(R.id.checkBox13);
         SAT = (CheckBox)findViewById(R.id.checkBox14);
 
-        boolean a,b,c,d,e,f,g;
-        if(SUN.isChecked() == true)
-            a = true;
-        if(MON.isChecked() == true)
-            b = true;
-        if(TUE.isChecked() == true)
-            c = true;
-        if(WED.isChecked() == true)
-            d = true;
-        if(THU.isChecked() == true)
-            e = true;
-        if(FRI.isChecked() == true)
-            f = true;
-        if(SAT.isChecked() == true)
-            g = true;
+        final boolean[] day= new boolean[7];
+        for(int i = 0; i<7; i++)
+            day[i] = false;
 
+
+        boolean a=false,b=false,c=false,d=false,e=false,f=false,g=false;
+        if(SUN.isChecked() == true)
+            day[0] = true;
+        if(MON.isChecked() == true)
+            day[1] = true;
+        if(TUE.isChecked() == true)
+            day[2] = true;
+        if(WED.isChecked() == true)
+            day[3] = true;
+        if(THU.isChecked() == true)
+            day[4] = true;
+        if(FRI.isChecked() == true)
+            day[5] = true;
+        if(SAT.isChecked() == true)
+            day[6] = true;
+
+
+        Spinner admin_spinner = (Spinner)findViewById(R.id.spinner);
+        final String admin  = admin_spinner.getSelectedItem().toString();
+
+        Spinner way_spinner = (Spinner)findViewById(R.id.spinner2);
+        final String way = way_spinner.getSelectedItem().toString();
+
+        /*
+        String admin_thirty = new String("30분전");
+        String way_bell = new String("벨");
+        int admin_thirty_result = 0;
+        int way_bell_result = 0;
+
+        if(admin_thirty.equals(admin))
+            admin_thirty_result = 1;
+        if(way_bell.equals(way))
+            way_bell_result = 1;
+*/
+
+        Button button = (Button) findViewById(R.id.button) ;
+        button.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),AlarmTab.class);
+
+                intent.putExtra("hour",hour);
+                intent.putExtra("minute",minute);
+
+                intent.putExtra("day",day);
+                intent.putExtra("admin",admin);
+                intent.putExtra("way",way);
+
+                setResult(0,intent);
+                finish();
+            }
+        });
 
 
     }

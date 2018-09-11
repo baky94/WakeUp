@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.baky.wakeup.View.Calendar.CalendarData;
+import com.example.baky.wakeup.View.Fragment.AlarmList;
+import com.example.baky.wakeup.View.Fragment.AlarmListView.AlarmData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,7 +15,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ApplicationController extends Application {
-    ArrayList<CalendarData> calendarList;
+    public ArrayList<CalendarData> calendarList;
+    public ArrayList<AlarmData> AlarmList;
     SharedPreferences pre;
     SharedPreferences.Editor edit;
     Gson gson;
@@ -55,10 +58,16 @@ public class ApplicationController extends Application {
         edit = pre.edit();
         Type listType = new TypeToken<ArrayList<CalendarData>>(){}.getType();
         this.calendarList = gson.fromJson(pre.getString("calendarList",""),listType);
+        Type AlarmListType = new TypeToken<ArrayList<AlarmData>>(){}.getType();
+        this.AlarmList = gson.fromJson(pre.getString("AlarmList",""),AlarmListType);
         if(this.calendarList == null){
             this.calendarList = new ArrayList<CalendarData>();
         }
+        if(this.AlarmList == null){
+            this.AlarmList = new ArrayList<AlarmData>();
+        }
         Log.d("ddd",this.calendarList.size()+"");
+        Log.d("dddAlarm",this.AlarmList.size()+"");
     }
 
     public void setJsonString(CalendarData data) {
@@ -82,5 +91,26 @@ public class ApplicationController extends Application {
         String json = pre.getString("calendarList","");
         this.calendarList = gson.fromJson(json,getType);
         return this.calendarList;
+    }
+
+    public void setAlarmList(AlarmData data){
+        this.AlarmList.add(data);
+        Type saveType = new TypeToken<ArrayList<AlarmData>>(){}.getType();
+        String json = gson.toJson(this.AlarmList,saveType);
+
+        SharedPreferences.Editor editor = pre.edit();
+//        editor.clear();
+//        editor.commit();
+        editor.putString("AlarmList",json);
+        editor.commit();
+    }
+
+    public ArrayList<AlarmData> getAlarmList() {
+        pre = getSharedPreferences("hh",0);
+        edit = pre.edit();
+        Type getType = new TypeToken<ArrayList<AlarmData>>(){}.getType();
+        String json = pre.getString("AlarmList","");
+        this.AlarmList = gson.fromJson(json,getType);
+        return this.AlarmList;
     }
 }
