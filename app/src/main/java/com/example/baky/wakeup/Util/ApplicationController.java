@@ -4,15 +4,19 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.example.baky.wakeup.View.Calendar.CalendarData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ApplicationController extends Application {
-    // 사용자 속성 저장
-    String JsonString;
-
+    ArrayList<CalendarData> calendarList;
     SharedPreferences pre;
     SharedPreferences.Editor edit;
-    double latitude, longitude;
+    Gson gson;
     //  private ApplicationController instance;
 
     /**
@@ -21,11 +25,13 @@ public class ApplicationController extends Application {
      * getter를 통해 자신의 instance를 가져오는 겁니다.
      */
     // ApplicationController 인스턴스 생성 및 getter 설정
-    private static ApplicationController instance;
+    private  ApplicationController instance;
 
-    public static ApplicationController getInstance() {
+    public  ApplicationController getInstance() {
         return instance;
     }
+
+    public  void setInstance(ApplicationController instance) {this.instance = instance;}
 
 
     @Override
@@ -37,7 +43,7 @@ public class ApplicationController extends Application {
          */
         Log.i("MyTag", "Application 객체가 가장 먼저 실행됩니다.");
         // 인스턴스 가져오고 서비스 실행
-        ApplicationController.instance = this;
+        this.instance = this;
         this.initSharedPre();
 
 
@@ -45,36 +51,36 @@ public class ApplicationController extends Application {
 
     public void initSharedPre() {
         pre = getSharedPreferences("hh", 0);
+        gson = new GsonBuilder().create();
         edit = pre.edit();
-
-
-        this.JsonString = pre.getString("JsonString", JsonString);
-
-
+        Type listType = new TypeToken<ArrayList<CalendarData>>(){}.getType();
+        this.calendarList = gson.fromJson(pre.getString("calendarList",""),listType);
+        if(this.calendarList == null){
+            this.calendarList = new ArrayList<CalendarData>();
+        }
+        Log.d("ddd",this.calendarList.size()+"");
     }
 
+    public void setJsonString(CalendarData data) {
 
+        this.calendarList.add(data);
+        Type saveType = new TypeToken<ArrayList<CalendarData>>(){}.getType();
+        String json = gson.toJson(this.calendarList,saveType);
 
-    public void setJsonString(String M) {
-        this.JsonString = M;
         SharedPreferences.Editor editor = pre.edit();
-        editor.clear();
-        editor.commit();
-        editor.putString("JsonString", M);
+//        editor.clear();
+//        editor.commit();
+        editor.putString("calendarList",json);
         editor.commit();
 
     }
-
-
-
-
-
-
-    public String getJsonString(){
+    public ArrayList<CalendarData> getJsonString(){
 
         pre = getSharedPreferences("hh",0);
         edit = pre.edit();
-        this.JsonString = pre.getString("JsonString", JsonString);
-        return JsonString;
+        Type getType = new TypeToken<ArrayList<CalendarData>>(){}.getType();
+        String json = pre.getString("calendarList","");
+        this.calendarList = gson.fromJson(json,getType);
+        return this.calendarList;
     }
 }
