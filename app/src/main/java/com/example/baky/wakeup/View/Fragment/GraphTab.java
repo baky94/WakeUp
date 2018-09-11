@@ -1,6 +1,5 @@
 package com.example.baky.wakeup.View.Fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -19,15 +18,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
-import com.example.baky.wakeup.View.Calendar.CalendarData;
-import com.example.baky.wakeup.View.HeartBeat;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,6 +51,9 @@ public class GraphTab extends Fragment {
     private ArrayAdapter<String> mConversationArrayAdapter;
     static boolean isConnectionError = false;
     private static final String TAG = "BluetoothClient";
+
+    LineData data;
+    ArrayList<HBData> hrtBtItems;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +63,21 @@ public class GraphTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graph_tab, container, false);
 
+        hrtBtItems = new ArrayList<HBData>();
+        LineChart lineChart = (LineChart) view.findViewById(R.id.fragment_chart);
 
-        Button sendButton = (Button) view.findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                String sendMessage = mInputEditText.getText().toString();
-                if ( sendMessage.length() > 0 ) {
-                    sendMessage(sendMessage);
-                }
-            }
-        });
+
+//        Button sendButton = (Button) view.findViewById(R.id.send_button);
+//        sendButton.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v){
+//                String sendMessage = mInputEditText.getText().toString();
+//                if ( sendMessage.length() > 0 ) {
+//                    sendMessage(sendMessage);
+//                }
+//            }
+//        });
         mConnectionStatus = (TextView) view.findViewById(R.id.connection_status_textview);
-        mInputEditText = (EditText) view.findViewById(R.id.input_string_edittext);
+        //mInputEditText = (EditText) view.findViewById(R.id.input_string_edittext);
         ListView mMessageListview = (ListView) view.findViewById(R.id.message_listview);
 
         mConversationArrayAdapter = new ArrayAdapter<>( getContext(),
@@ -92,6 +102,11 @@ public class GraphTab extends Fragment {
 
             showPairedDevicesListDialog();
         }
+
+        lineInit();
+
+        lineChart.setData(data);
+        lineChart.animateY(5000);
 
 
 
@@ -150,7 +165,7 @@ public class GraphTab extends Fragment {
 
 
         @Override
-        protected void onPostExecute(Boolean isSucess) { // 블루투스 연결 실패
+        protected void onPostExecute(Boolean isSucess) {
 
             if ( isSucess ) {
                 connected(mBluetoothSocket);
@@ -223,12 +238,7 @@ public class GraphTab extends Fragment {
                                 System.arraycopy(readBuffer, 0, encodedBytes, 0,
                                         encodedBytes.length);
                                 String recvMessage = new String(encodedBytes, "UTF-8");
-//                                HeartBeat HBeat = new HeartBeat(recvMessage);
-//
-//                                Intent intent = new Intent(getActivity(), ChartTab.class);
-//                                intent.putExtra("heart", HBeat);
-//                                startActivity(intent);
-                                //Toast.makeText(,recvMessage , Toast.LENGTH_SHORT).show();
+
                                 readBufferPosition = 0;
 
                                 Log.d(TAG, "recv message: " + recvMessage);
@@ -252,14 +262,21 @@ public class GraphTab extends Fragment {
         @Override
         protected void onProgressUpdate(String... recvMessage) {
 
+
+
+
             mConversationArrayAdapter.insert(mConnectedDeviceName + ": " + recvMessage[0], 0);
+            //여기서 ArrayList에 넣는것 같음 @@희현
+            Date date = new Date();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("HHmm");
+            hrtBtItems.add(new HBData(recvMessage[0], sdf1.format(date)));
         }
 
         @Override
         protected void onPostExecute(Boolean isSucess) {
             super.onPostExecute(isSucess);
 
-            if ( !isSucess ) { // 연결 끊겼을 때
+            if ( !isSucess ) {
 
 
                 closeSocket();
@@ -296,7 +313,6 @@ public class GraphTab extends Fragment {
 
             try {
                 mOutputStream.write(msg.getBytes());
-                Log.d("ddd", msg);
                 mOutputStream.flush();
             } catch (IOException e) {
                 Log.e(TAG, "Exception during send", e );
@@ -307,7 +323,7 @@ public class GraphTab extends Fragment {
     }
 
 
-    public void showPairedDevicesListDialog() // 블루투스 디바이스 연결
+    public void showPairedDevicesListDialog()
     {
         Set<BluetoothDevice> devices = mBluetoothAdapter.getBondedDevices();
         final BluetoothDevice[] pairedDevices = devices.toArray(new BluetoothDevice[0]);
@@ -377,14 +393,6 @@ public class GraphTab extends Fragment {
         builder.create().show();
     }
 
-    void sendMessage(String msg){
-
-        if ( mConnectedTask != null ) {
-            mConnectedTask.write(msg);
-            Log.d(TAG, "send message: " + msg);
-            mConversationArrayAdapter.insert("Me:  " + msg, 0);
-        }
-    }
 
 
     @Override
@@ -399,5 +407,45 @@ public class GraphTab extends Fragment {
                 showQuitDialog( "You need to enable bluetooth");
             }
         }
+    }
+
+    public void lineInit(){
+
+
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(74, 0));
+        entries.add(new Entry(69, 1));
+        entries.add(new Entry(60, 2));
+        entries.add(new Entry(70, 3));
+        entries.add(new Entry(57, 4));
+        entries.add(new Entry(54, 5));
+        entries.add(new Entry(64, 6));
+        entries.add(new Entry(53, 7));
+        entries.add(new Entry(52, 8));
+        entries.add(new Entry(65, 10));
+        entries.add(new Entry(73, 11));
+
+        LineDataSet dataset = new LineDataSet(entries, "# of Calls");
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("00:00");
+        labels.add("00:30");
+        labels.add("01:00");
+        labels.add("01:30");
+        labels.add("02:00");
+        labels.add("02:30");
+        labels.add("03:00");
+        labels.add("03:30");
+        labels.add("04:00");
+        labels.add("04:30");
+        labels.add("05:00");
+        labels.add("05:30");
+
+        data = new LineData(labels, dataset);
+        dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        /*dataset.setDrawCubic(true); //선 둥글게 만들기
+        dataset.setDrawFilled(true); //그래프 밑부분 색칠*/
+
+
     }
 }

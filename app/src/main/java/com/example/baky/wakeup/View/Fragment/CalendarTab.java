@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.baky.wakeup.R;
@@ -85,7 +86,7 @@ public class CalendarTab extends Fragment {
         setMonthText();
 
         // 이전 월로 넘어가는 이벤트 처리
-        Button monthPrevious = (Button) view.findViewById(R.id.monthPrevious);
+        ImageView monthPrevious = (ImageView) view.findViewById(R.id.monthPrevious);
         monthPrevious.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 monthViewAdapter.setPreviousMonth();
@@ -96,7 +97,7 @@ public class CalendarTab extends Fragment {
         });
 
         // 다음 월로 넘어가는 이벤트 처리
-        Button monthNext = (Button) view.findViewById(R.id.monthNext);
+        ImageView monthNext = (ImageView) view.findViewById(R.id.monthNext);
         monthNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 monthViewAdapter.setNextMonth();
