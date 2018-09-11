@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.example.baky.wakeup.R;
 import com.example.baky.wakeup.View.Calendar.CalendarData;
-import com.example.baky.wakeup.View.HeartBeat;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
