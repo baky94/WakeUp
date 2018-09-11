@@ -1,38 +1,42 @@
 package com.example.baky.wakeup.View.Fragment;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.baky.wakeup.R;
+import com.example.baky.wakeup.View.Calendar.MonthAdapter;
 
 public class AlarmTab extends Fragment {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
+   Button btn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_tab,container,false);
-        Spinner s = (Spinner)view.findViewById(R.id.spinner);
-        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        btn = (Button) view.findViewById(R.id.imageadd);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-           //     tv.setText("position : " + position + parent.getItemAtPosition(position));
+            public void onClick(View view) {
+                Log.d("dd","asdf");
+                Intent intent = new Intent(getActivity(),mainLayout.class);
+                startActivity(intent);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        return inflater.inflate(R.layout.fragment_alarm_tab, container, false);
+
+
+        return view;
     }
 }

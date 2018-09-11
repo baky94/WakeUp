@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WakeUp</string>
+    <string name="title_activity_mainlayout">mainlayout</string>
+    <string name="title_activity_main_layout">mainLayout</string>
 </resources>

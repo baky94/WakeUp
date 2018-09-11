@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.baky.wakeup">
 
-
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
 
     <application
         android:allowBackup="true"
@@ -21,8 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.Calendar.CalendarAlarm" />
 
-        <activity android:name=".View.Calendar.CalendarAlarm"></activity>
+        <activity
+            android:name=".View.Fragment.mainLayout"
+            android:label="@string/title_activity_main_layout" />
     </application>
 
 </manifest>
