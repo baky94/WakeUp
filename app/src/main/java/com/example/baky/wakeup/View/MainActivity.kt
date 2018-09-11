@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             btn_main_graph -> {
-                replaceFragment(ChartTab())
+                replaceFragment(GraphTab())
             }
         }
 

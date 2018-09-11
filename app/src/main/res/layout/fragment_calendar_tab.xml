@@ -4,19 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffffff"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="8dp"
         >
-        <Button
+        <ImageView
             android:id="@+id/monthPrevious"
-            android:layout_width="46dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backward"
-            android:gravity="center_horizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/left_arrow_btn"
+            android:gravity="center_vertical"
             android:layout_alignParentLeft="true"
             />
         <TextView
@@ -29,12 +34,12 @@
             android:gravity="center_horizontal"
             android:layout_centerInParent="true"
             />
-        <Button
+        <ImageView
             android:id="@+id/monthNext"
-            android:layout_width="46dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/forward"
-            android:gravity="center_horizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/right_arrow_btn"
+            android:gravity="center_vertical"
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
@@ -43,10 +48,10 @@
         android:id="@+id/monthView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00000000"
+        android:background="#ffbbbbbb"
         android:horizontalSpacing="1dp"
         android:numColumns="7"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp" />
+        android:verticalSpacing="1dp" />
 
 </LinearLayout>
