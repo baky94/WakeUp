@@ -223,11 +223,11 @@ public class GraphTab extends Fragment {
                                 System.arraycopy(readBuffer, 0, encodedBytes, 0,
                                         encodedBytes.length);
                                 String recvMessage = new String(encodedBytes, "UTF-8");
-                                HeartBeat HBeat = new HeartBeat(recvMessage);
-
-                                Intent intent = new Intent(getActivity(), ChartTab.class);
-                                intent.putExtra("heart", HBeat);
-                                startActivity(intent);
+//                                HeartBeat HBeat = new HeartBeat(recvMessage);
+//
+//                                Intent intent = new Intent(getActivity(), ChartTab.class);
+//                                intent.putExtra("heart", HBeat);
+//                                startActivity(intent);
                                 //Toast.makeText(,recvMessage , Toast.LENGTH_SHORT).show();
                                 readBufferPosition = 0;
 
