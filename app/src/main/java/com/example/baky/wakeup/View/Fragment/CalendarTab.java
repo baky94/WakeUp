@@ -1,5 +1,7 @@
 package com.example.baky.wakeup.View.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,9 +14,12 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.baky.wakeup.R;
+import com.example.baky.wakeup.View.Calendar.CalendarAlarm;
 import com.example.baky.wakeup.View.Calendar.MonthAdapter;
 import com.example.baky.wakeup.View.Calendar.MonthItem;
 import com.example.baky.wakeup.View.MainActivity;
+
+import java.util.Calendar;
 
 public class CalendarTab extends Fragment {
 
@@ -63,8 +68,15 @@ public class CalendarTab extends Fragment {
                 // 현재 선택한 일자 정보 표시
                 MonthItem curItem = (MonthItem) monthViewAdapter.getItem(position);
                 int day = curItem.getDay();
+                int month = curMonth+1;
+                int year = curYear;
+                Intent intent = new Intent(getActivity(), CalendarAlarm.class);
+                intent.putExtra("day", day);
+                intent.putExtra("month", month);
+                intent.putExtra("year",year);
+                startActivityForResult(intent, Activity.RESULT_OK);
 
-                Log.d("MainActivity", "Selected : " + day);
+                Log.d("MainActivity", "Selected : "+ month + day);
             }
         });
 

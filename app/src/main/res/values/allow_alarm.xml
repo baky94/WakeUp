@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="allow_alarm">
+        <item >30분전</item>
+        <item>15분전</item>
+    </string-array>
+</resources>
