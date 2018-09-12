@@ -1,6 +1,7 @@
 package com.example.baky.wakeup.View.Calendar;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -26,7 +29,9 @@ public class CalendarAlarm extends Activity {
 
     TimePicker timePicker;
     Button button;
+    ImageButton destSearchBtn;
     TextView textview6;
+    EditText editText1;
 
     int day, month, year;
     int hour, min;
@@ -39,8 +44,10 @@ public class CalendarAlarm extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_alarm_setting);
 
+        destSearchBtn = (ImageButton) findViewById(R.id.imageButton4);
         button = (Button) findViewById(R.id.button);
         textview6 = (TextView) findViewById(R.id.textView6);
+        editText1 = (EditText)findViewById(R.id.editText2);
         timePicker = (TimePicker) findViewById(R.id.timePicker2);
 
         day = getIntent().getIntExtra("day",-1);
@@ -49,6 +56,16 @@ public class CalendarAlarm extends Activity {
         position = getIntent().getIntExtra("position", -1);
 //        Toast.makeText(this,"day : " + day+"month :" +month,Toast.LENGTH_SHORT).show();
         textview6.setText(""+year+". "+month+". "+day);
+
+        destSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+                Log.d("search",editText1.getText().toString());
+                intent.putExtra("search",editText1.getText().toString());
+                startActivityForResult(intent,10);
+            }
+        });
 
 
     }
@@ -79,4 +96,5 @@ public class CalendarAlarm extends Activity {
         finish();
         //Toast.makeText(this,"hour : " + hour + "min :" + min, Toast.LENGTH_SHORT).show();
     }
+
 }
