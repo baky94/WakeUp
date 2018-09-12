@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="how_alarm">
+        <item >진동</item>
+        <item>벨</item>
+    </string-array>
+</resources>

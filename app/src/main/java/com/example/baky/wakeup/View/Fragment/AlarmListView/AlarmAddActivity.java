@@ -1,5 +1,8 @@
 package com.example.baky.wakeup.View.Fragment.AlarmListView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,13 +17,21 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
+import com.example.baky.wakeup.Util.StartReceiver;
 import com.example.baky.wakeup.View.Fragment.AlarmTab;
 import com.example.baky.wakeup.View.MainActivity;
+
+import java.util.Calendar;
 
 public class AlarmAddActivity extends Activity {
 
     boolean[] day= new boolean[7];
     CheckBox SUN,MON,TUE,WED,THU,FRI,SAT;
+
+    AlarmManager alarmManager;
+    Calendar calendar;
+    Intent mAlarmIntent;
+    PendingIntent mPendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +116,30 @@ public class AlarmAddActivity extends Activity {
                 intent.putExtra("way",way);
 
            //     Toast.makeText(AlarmAddActivity.this,days,Toast.LENGTH_SHORT).show();
+
+                Log.d("ddddd","aaa");
+                calendar = Calendar.getInstance();
+                //calendar.setTimeInMillis(System.currentTimeMillis());
+
+                calendar.set(Calendar.YEAR,2018);
+                calendar.set(Calendar.MONTH,8);
+                calendar.set(Calendar.DATE,12);
+                calendar.set(Calendar.HOUR_OF_DAY,hour);
+                calendar.set(Calendar.MINUTE,minute);
+                calendar.set(Calendar.SECOND,0);
+
+                mAlarmIntent = new Intent(getApplicationContext(), StartReceiver.class);
+                mAlarmIntent.putExtra("FLAG",0);
+                Log.d("ddddd","asdf");
+                mPendingIntent = PendingIntent.getBroadcast(getApplicationContext(),0,mAlarmIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        mPendingIntent
+                );
+
+
 
                 setResult(0,intent);
                 finish();

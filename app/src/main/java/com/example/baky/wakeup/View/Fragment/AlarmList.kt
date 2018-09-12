@@ -32,7 +32,6 @@ class AlarmList : Fragment(), View.OnClickListener {
         }
     }
 
-
     lateinit var alarmAdapter: AlarmAdapter
     lateinit var alarmRecycler: RecyclerView
     lateinit var alarmAdd : TextView

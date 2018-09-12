@@ -11,6 +11,15 @@ import com.example.baky.wakeup.View.Fragment.AlarmListView.AlarmAdapter
 import com.example.baky.wakeup.View.Fragment.AlarmListView.AlarmData
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_alarm_list.*
+import android.Manifest.permission
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.support.v4.app.ActivityCompat
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.INTERNET
+import java.util.jar.Manifest
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -37,6 +46,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val permissionCheck1 = ContextCompat.checkSelfPermission(this,android.Manifest.permission.INTERNET)
+        if (permissionCheck1 == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.INTERNET), 1)
+
+        val permissionCheck2 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (permissionCheck2 == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 1)
+
+        val permissionCheck3 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (permissionCheck3 == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
+
         addFragment(AlarmListTest())
 
         btn_main_alarm.setOnClickListener(this)
