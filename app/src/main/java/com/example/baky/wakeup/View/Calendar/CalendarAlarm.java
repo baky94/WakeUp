@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import com.example.baky.wakeup.Util.ApplicationController;
 import java.sql.Time;
 import java.util.Date;
 
+import static java.security.AccessController.getContext;
+
 public class CalendarAlarm extends Activity {
 
     TimePicker timePicker;
@@ -27,6 +30,7 @@ public class CalendarAlarm extends Activity {
 
     int day, month, year;
     int hour, min;
+    int position;
 
     public ApplicationController applicationController;
 
@@ -42,8 +46,11 @@ public class CalendarAlarm extends Activity {
         day = getIntent().getIntExtra("day",-1);
         month = getIntent().getIntExtra("month",-1);
         year = getIntent().getIntExtra("year",-1);
+        position = getIntent().getIntExtra("position", -1);
 //        Toast.makeText(this,"day : " + day+"month :" +month,Toast.LENGTH_SHORT).show();
         textview6.setText(""+year+". "+month+". "+day);
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -61,6 +68,15 @@ public class CalendarAlarm extends Activity {
         CalendarData CData = new CalendarData(37.570841, 126.985302, date);
         applicationController = (ApplicationController) getApplicationContext();
         applicationController.setJsonString(CData);
+
+//        GridView monthView;
+//        MonthAdapter monthViewAdapter;
+//
+//        monthView = (GridView) findViewById(R.id.monthView);
+//        monthViewAdapter = new MonthAdapter(getApplicationContext());
+//        monthView.setAdapter(monthViewAdapter);
+
+        finish();
         //Toast.makeText(this,"hour : " + hour + "min :" + min, Toast.LENGTH_SHORT).show();
     }
 }

@@ -54,6 +54,7 @@ public class GraphTab extends Fragment {
 
     LineData data;
     ArrayList<HBData> hrtBtItems;
+    LineChart lineChart;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class GraphTab extends Fragment {
         View view = inflater.inflate(R.layout.fragment_graph_tab, container, false);
 
         hrtBtItems = new ArrayList<HBData>();
-        LineChart lineChart = (LineChart) view.findViewById(R.id.fragment_chart);
+        lineChart = (LineChart) view.findViewById(R.id.fragment_chart);
 
 
 //        Button sendButton = (Button) view.findViewById(R.id.send_button);
@@ -270,6 +271,11 @@ public class GraphTab extends Fragment {
             Date date = new Date();
             SimpleDateFormat sdf1 = new SimpleDateFormat("HHmm");
             hrtBtItems.add(new HBData(recvMessage[0], sdf1.format(date)));
+
+//            lineInit();
+//
+//            lineChart.setData(data);
+//            lineChart.animateY(5000);
         }
 
         @Override
@@ -411,9 +417,22 @@ public class GraphTab extends Fragment {
 
     public void lineInit(){
 
+        long num;
 
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(74, 0));
+//        for(int i = 0; i < 10; i++)
+//        {
+//            if(hrtBtItems.size() <= i) {
+//                num = 0;
+//                Log.d("dddd", "cc" );
+//            }
+//            else{
+//                num = Long.parseLong(hrtBtItems.get(i).getHrtbt());
+//                Log.d("dddd", Integer.toString(num) );
+//            }
+//            entries.add(new Entry(num, i));
+//        }
+        entries.add(new Entry(71, 0));
         entries.add(new Entry(69, 1));
         entries.add(new Entry(60, 2));
         entries.add(new Entry(70, 3));
