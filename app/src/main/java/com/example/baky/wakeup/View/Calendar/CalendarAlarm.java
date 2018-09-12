@@ -1,6 +1,9 @@
 package com.example.baky.wakeup.View.Calendar;
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -19,8 +22,10 @@ import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
 import com.example.baky.wakeup.Util.ApplicationController;
+import com.example.baky.wakeup.Util.StartReceiver;
 
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 
 import static java.security.AccessController.getContext;
@@ -33,9 +38,18 @@ public class CalendarAlarm extends Activity {
     TextView textview6;
     EditText editText1;
 
+    AlarmManager alarmManager;
+    Calendar calendar;
+    Intent mAlarmIntent;
+    PendingIntent mPendingIntent;
+
     int day, month, year;
     int hour, min;
     int position;
+
+    double latitude;
+    double longitude;
+    CalendarData CData;
 
     public ApplicationController applicationController;
 
@@ -50,9 +64,9 @@ public class CalendarAlarm extends Activity {
         editText1 = (EditText)findViewById(R.id.editText2);
         timePicker = (TimePicker) findViewById(R.id.timePicker2);
 
-        day = getIntent().getIntExtra("day",-1);
-        month = getIntent().getIntExtra("month",-1);
-        year = getIntent().getIntExtra("year",-1);
+        day = getIntent().getIntExtra("day",0);
+        month = getIntent().getIntExtra("month",0);
+        year = getIntent().getIntExtra("year",0);
         position = getIntent().getIntExtra("position", -1);
 //        Toast.makeText(this,"day : " + day+"month :" +month,Toast.LENGTH_SHORT).show();
         textview6.setText(""+year+". "+month+". "+day);
@@ -82,19 +96,50 @@ public class CalendarAlarm extends Activity {
         date.setDate(day);
         date.setHours(hour);
         date.setMinutes(min);
-        CalendarData CData = new CalendarData(37.570841, 126.985302, date);
+        Log.d("dddddDate",date.toString());
+        CData = new CalendarData(latitude,longitude,date);
         applicationController = (ApplicationController) getApplicationContext();
         applicationController.setJsonString(CData);
 
-//        GridView monthView;
-//        MonthAdapter monthViewAdapter;
-//
-//        monthView = (GridView) findViewById(R.id.monthView);
-//        monthViewAdapter = new MonthAdapter(getApplicationContext());
-//        monthView.setAdapter(monthViewAdapter);
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month);
+        calendar.set(Calendar.DATE,day);
+        calendar.set(Calendar.HOUR_OF_DAY,hour);
+        calendar.set(Calendar.MINUTE,min);
+        calendar.set(Calendar.SECOND,0);
+
+
+        mAlarmIntent = new Intent(getApplicationContext(), StartReceiver.class);
+        mAlarmIntent.putExtra("FLAG",1);
+        mAlarmIntent.putExtra("latitude",latitude);
+        mAlarmIntent.putExtra("longitude",longitude);
+
+        Log.d("dddLat",latitude+"");
+        Log.d("dddLong",longitude+"");
+        Log.d("ddddd","asdf");
+        calendar.add(Calendar.MINUTE,-15);
+        mPendingIntent = PendingIntent.getBroadcast(getApplicationContext(),1,mAlarmIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                mPendingIntent
+        );
 
         finish();
         //Toast.makeText(this,"hour : " + hour + "min :" + min, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String name;
+        if(resultCode == 1){
+            name = data.getStringExtra("name");
+            latitude = data.getDoubleExtra("latitude",0);
+            longitude = data.getDoubleExtra("longitude",0);
+            editText1.setText(name);
+        }
+    }
 }

@@ -69,8 +69,11 @@ public class CalendarTab extends Fragment {
                 // 현재 선택한 일자 정보 표시
                 MonthItem curItem = (MonthItem) monthViewAdapter.getItem(position);
                 int day = curItem.getDay();
-                int month = curMonth+1;
+                Log.d("dddDay",day+"");
+                int month = curMonth;
+                Log.d("dddMonth",month+"");
                 int year = curYear;
+                Log.d("dddYear",year+"");
                 Intent intent = new Intent(getActivity(), CalendarAlarm.class);
                 intent.putExtra("day", day);
                 intent.putExtra("month", month);

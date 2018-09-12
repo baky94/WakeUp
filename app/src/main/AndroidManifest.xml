@@ -54,7 +54,7 @@
             android:name=".Util.AlarmService"
             android:enabled="true" />
         <service
-            android:name=".Util.AlarmService"
+            android:name=".Util.CalendarService"
             android:enabled="true" />
 
         <activity android:name=".View.ResultActivity" />

@@ -16,6 +16,8 @@ import com.example.baky.wakeup.R;
 import com.example.baky.wakeup.Util.AlarmReceiver;
 import com.example.baky.wakeup.Util.StartReceiver;
 
+import java.util.Calendar;
+
 public class ResultActivity extends AppCompatActivity {
 
     private TextView timeText;
@@ -38,10 +40,15 @@ public class ResultActivity extends AppCompatActivity {
 
         flag = this.getIntent().getIntExtra("FLAG",0);
 
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
         if(flag == 0){
             String sky = this.getIntent().getStringExtra("sky");
             String rain = this.getIntent().getStringExtra("pty");
-            timeText.setVisibility(View.INVISIBLE);
+
+            timeText.setText(calendar.get(Calendar.YEAR)+"."+(calendar.get(Calendar.MONTH)+1)+"."+calendar.get(Calendar.DATE)+" "+
+            calendar.get(Calendar.HOUR_OF_DAY)+"시"+calendar.get(Calendar.MINUTE)+"분");
+            totalText.setVisibility(View.INVISIBLE);
             if(rain.equals("없음")) {
                 weatherText.setText("오늘의 날씨는 "+sky+"이고 비나 눈은 오지 않습니다.");
             } else {
@@ -54,8 +61,10 @@ public class ResultActivity extends AppCompatActivity {
             Log.d("ddddTime",time+"");
            String sky = this.getIntent().getStringExtra("sky");
            String rain = this.getIntent().getStringExtra("pty");
-            timeText.setText("목적지까지"+time+"분 소요");
-            timeText.setVisibility(View.VISIBLE);
+            timeText.setText(calendar.get(Calendar.YEAR)+"."+(calendar.get(Calendar.MONTH)+1)+"."+calendar.get(Calendar.DATE)+" "+
+                    calendar.get(Calendar.HOUR_OF_DAY)+"시"+calendar.get(Calendar.MINUTE)+"분");
+            totalText.setText("목적지까지"+time+"분 소요");
+            totalText.setVisibility(View.VISIBLE);
             if(rain.equals("없음")) {
                 weatherText.setText("오늘의 날씨는 "+sky+"이고 비나 눈은 오지 않습니다.");
             } else {
@@ -72,8 +81,11 @@ public class ResultActivity extends AppCompatActivity {
                 vibe.cancel();
 
                 AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                Intent intent = new Intent(getApplicationContext(), StartReceiver.class);
+                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
                 PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (sender != null) { am.cancel(sender); sender.cancel();}
+                intent = new Intent(getApplicationContext(),StartReceiver.class);
+                sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 if (sender != null) { am.cancel(sender); sender.cancel();}
                 finish();
 

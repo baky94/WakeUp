@@ -1,5 +1,6 @@
 package com.example.baky.wakeup.View.Calendar;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -55,10 +56,27 @@ public class MapActivity extends AppCompatActivity {
                     Drawable drawable = getResources().getDrawable(R.drawable.right_arrow_btn);
                     Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
 
+
+                    int viewHeight = 20;
+
+                    float width = bitmap.getWidth();
+                    float height = bitmap.getHeight();
+
+                    if(height > viewHeight)
+                    {
+                        float percente = (float)(height / 100);
+                        float scale = (float)(viewHeight / percente);
+                        width *= (scale / 100);
+                        height *= (scale / 100);
+                    }
+                    Bitmap sizingBmp = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, true);
+                    marker.setCalloutRightButtonImage(sizingBmp);
+
                     tMapView.addMarkerItem("marker"+i,marker);
                     if(i==0){
                         tMapView.setCenterPoint(item.getPOIPoint().getLongitude(),item.getPOIPoint().getLatitude());
                     }
+
                 }
             }
         });
@@ -67,7 +85,12 @@ public class MapActivity extends AppCompatActivity {
         tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
-                Log.d("marker",tMapMarkerItem.latitude+" : "+tMapMarkerItem.longitude);
+                Intent intent = new Intent(getApplicationContext(),CalendarAlarm.class);
+                intent.putExtra("latitude",tMapMarkerItem.getTMapPoint().getLatitude());
+                intent.putExtra("longitude",tMapMarkerItem.getTMapPoint().getLongitude());
+                intent.putExtra("name",tMapMarkerItem.getName());
+                setResult(1,intent);
+                finish();
             }
         });
 

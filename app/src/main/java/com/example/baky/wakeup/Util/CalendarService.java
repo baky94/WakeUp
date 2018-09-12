@@ -2,6 +2,8 @@ package com.example.baky.wakeup.Util;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,11 +31,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarService extends Service {
     TMapView tMapView;
-    TMapPoint currentPosition;
+    TMapPoint destinationPosition;
 
     TMapGpsManager tMapGpsManager;
     int totalTime;
@@ -69,6 +72,8 @@ public class CalendarService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         flag = intent.getIntExtra("FLAG",0);
+        destinationPosition = new TMapPoint(intent.getDoubleExtra("latitude",0),intent.getDoubleExtra("longitude",0));
+        Log.d("ddddPosi",destinationPosition.getLatitude()+":"+destinationPosition.getLongitude());
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,3000,10,gpsListener);
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,3000,10,networkListener);
 
@@ -171,7 +176,7 @@ public class CalendarService extends Service {
         if(flag == 0){
             getWeather(current);
         } else if(flag == 1){
-            TMapPoint destinationPosition = new TMapPoint(37.570841, 126.985302);
+            //TMapPoint destinationPosition = new TMapPoint(37.570841, 126.985302);
             new TMapData().findPathDataAllType(TMapData.TMapPathType.CAR_PATH, current, destinationPosition, new TMapData.FindPathDataAllListenerCallback() {
                 @Override
                 public void onFindPathDataAll(Document document) {
@@ -229,12 +234,30 @@ public class CalendarService extends Service {
                 }
 
                 Intent gpsRe = new Intent(getApplicationContext(),AlarmReceiver.class);
-                gpsRe.putExtra("FLAG",1);
-                gpsRe.putExtra("totalTime",totalTime);
-                gpsRe.putExtra("sky",skyValue);
-                gpsRe.putExtra("pty",ptyValue);
-                sendBroadcast(gpsRe);
 
+                if(totalTime/60 > 15){
+                    gpsRe.putExtra("FLAG",1);
+                    gpsRe.putExtra("totalTime",totalTime);
+                    gpsRe.putExtra("sky",skyValue);
+                    gpsRe.putExtra("pty",ptyValue);
+                    sendBroadcast(gpsRe);
+                } else {
+                    Log.d("ddddDelay","시방");
+                    gpsRe.putExtra("FLAG",1);
+                    gpsRe.putExtra("totalTime",totalTime);
+                    gpsRe.putExtra("sky",skyValue);
+                    gpsRe.putExtra("pty",ptyValue);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+                    calendar.add(Calendar.MINUTE,15);
+                    PendingIntent mPendingIntent = PendingIntent.getBroadcast(getApplicationContext(),2,gpsRe,PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.set(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(),
+                            mPendingIntent
+                    );
+                }
             }
 
             @Override
