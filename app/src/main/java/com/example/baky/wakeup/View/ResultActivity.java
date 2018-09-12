@@ -76,12 +76,8 @@ public class ResultActivity extends AppCompatActivity {
                 PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 if (sender != null) { am.cancel(sender); sender.cancel();}
                 finish();
-
             }
         });
-
-
-
     }
 
 }

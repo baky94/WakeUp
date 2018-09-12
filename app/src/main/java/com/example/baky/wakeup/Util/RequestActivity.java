@@ -77,7 +77,6 @@ public class RequestActivity {
             while((line = br.readLine()) != null) {
                 result = result + line + "\n";
                 Log.d("result", result);
-
             }
             return result;
 

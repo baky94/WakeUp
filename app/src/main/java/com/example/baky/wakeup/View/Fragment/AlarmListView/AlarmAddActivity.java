@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
 import com.example.baky.wakeup.Util.StartReceiver;
+import com.example.baky.wakeup.View.Fragment.AlarmListTest;
 import com.example.baky.wakeup.View.Fragment.AlarmTab;
 import com.example.baky.wakeup.View.MainActivity;
 
@@ -76,7 +77,7 @@ public class AlarmAddActivity extends Activity {
         button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),AlarmTab.class);
+                Intent intent = new Intent(getApplicationContext(),AlarmListTest.class);
 
                 TimePicker timeselect = (TimePicker)findViewById(R.id.timePicker);
                 final int hour = timeselect.getHour();

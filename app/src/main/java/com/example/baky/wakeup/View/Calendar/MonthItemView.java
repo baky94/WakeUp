@@ -44,8 +44,5 @@ public class MonthItemView extends AppCompatTextView {
         } else {
             setText("");
         }
-
     }
-
-
 }
