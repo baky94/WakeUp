@@ -51,6 +51,7 @@ public class GraphTab extends Fragment {
     private ArrayAdapter<String> mConversationArrayAdapter;
     static boolean isConnectionError = false;
     private static final String TAG = "BluetoothClient";
+    int j = 0;
 
     LineData data;
     ArrayList<HBData> hrtBtItems;
@@ -107,7 +108,7 @@ public class GraphTab extends Fragment {
         lineInit();
 
         lineChart.setData(data);
-        lineChart.animateY(5000);
+        lineChart.animateY(1000);
 
 
 
@@ -272,10 +273,10 @@ public class GraphTab extends Fragment {
             SimpleDateFormat sdf1 = new SimpleDateFormat("HHmm");
             hrtBtItems.add(new HBData(recvMessage[0], sdf1.format(date)));
 
-//            lineInit();
-//
-//            lineChart.setData(data);
-//            lineChart.animateY(5000);
+            lineInit();
+
+            lineChart.setData(data);
+            lineChart.animateY(1000);
         }
 
         @Override
@@ -417,32 +418,57 @@ public class GraphTab extends Fragment {
 
     public void lineInit(){
 
-        long num;
+        int num;
+        String temp;
 
         ArrayList<Entry> entries = new ArrayList<>();
-//        for(int i = 0; i < 10; i++)
-//        {
-//            if(hrtBtItems.size() <= i) {
-//                num = 0;
-//                Log.d("dddd", "cc" );
-//            }
-//            else{
-//                num = Long.parseLong(hrtBtItems.get(i).getHrtbt());
-//                Log.d("dddd", Integer.toString(num) );
-//            }
-//            entries.add(new Entry(num, i));
-//        }
-        entries.add(new Entry(71, 0));
-        entries.add(new Entry(69, 1));
-        entries.add(new Entry(60, 2));
-        entries.add(new Entry(70, 3));
-        entries.add(new Entry(57, 4));
-        entries.add(new Entry(54, 5));
-        entries.add(new Entry(64, 6));
-        entries.add(new Entry(53, 7));
-        entries.add(new Entry(52, 8));
-        entries.add(new Entry(65, 10));
-        entries.add(new Entry(73, 11));
+        for(int i = 0; i < 10; i++)
+        {
+            if(hrtBtItems.size() <= i) {
+                num = 0;
+                Log.d("dddd", "cc" );
+            }
+            else {
+                if(j >= 11)
+                {
+//                    if (hrtBtItems.get(j - (10 - i)).getHrtbt() == null || hrtBtItems.get(j - (10 - i)).getHrtbt().trim().equals("")) {
+//                        num = 0;
+//                        Log.d("dddd", "null");
+//                    } else {
+                        Log.d("dd", "ㅇㅇㅇ");
+                        temp = hrtBtItems.get(j - (10 - i)).getHrtbt().trim();
+                        num = Integer.parseInt(temp);
+                        //num = Integer.parseInt(hrtBtItems.get(i).getHrtbt());
+                        Log.d("dddd", "int 완료");
+//                    }
+                }
+                else {
+                    if (hrtBtItems.get(i).getHrtbt() == null || hrtBtItems.get(i).getHrtbt().trim().equals("")) {
+                        num = 0;
+                        Log.d("dddd", "null");
+                    } else {
+                        temp = hrtBtItems.get(i).getHrtbt().trim();
+                        num = Integer.parseInt(temp);
+                        //num = Integer.parseInt(hrtBtItems.get(i).getHrtbt());
+                        Log.d("dddd", "int 완료");
+                    }
+                }
+
+                // Log.d("dddd", Integer.toString(num) );
+            }
+            entries.add(new Entry(num, i));
+        }
+//        entries.add(new Entry(71, 0));
+//        entries.add(new Entry(69, 1));
+//        entries.add(new Entry(60, 2));
+//        entries.add(new Entry(70, 3));
+//        entries.add(new Entry(57, 4));
+//        entries.add(new Entry(54, 5));
+//        entries.add(new Entry(64, 6));
+//        entries.add(new Entry(53, 7));
+//        entries.add(new Entry(52, 8));
+//        entries.add(new Entry(65, 10));
+//        entries.add(new Entry(73, 11));
 
         LineDataSet dataset = new LineDataSet(entries, "# of Calls");
 
@@ -457,14 +483,14 @@ public class GraphTab extends Fragment {
         labels.add("03:30");
         labels.add("04:00");
         labels.add("04:30");
-        labels.add("05:00");
-        labels.add("05:30");
+        //labels.add("05:00");
+        //labels.add("05:30");
 
         data = new LineData(labels, dataset);
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
         /*dataset.setDrawCubic(true); //선 둥글게 만들기
         dataset.setDrawFilled(true); //그래프 밑부분 색칠*/
 
-
+        j++;
     }
 }

@@ -206,6 +206,7 @@ public class AlarmService extends Service {
                     }
                 }
                 Intent gpsRe = new Intent(getApplicationContext(),AlarmReceiver.class);
+                gpsRe.setAction("AlarmService");
                 gpsRe.putExtra("FLAG",0);
                 gpsRe.putExtra("sky",skyValue);
                 gpsRe.putExtra("pty",ptyValue);

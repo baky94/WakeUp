@@ -71,7 +71,7 @@ public class ChartTab extends android.support.v4.app.Fragment{
         dataset.setDrawFilled(true); //그래프 밑부분 색칠*/
 
         lineChart.setData(data);
-        lineChart.animateY(5000);
+        lineChart.animateY(10000);
 
         return view;
     }

@@ -82,9 +82,11 @@ public class ResultActivity extends AppCompatActivity {
 
                 AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
                 Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                intent.setAction("AlarmService");
                 PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 if (sender != null) { am.cancel(sender); sender.cancel();}
                 intent = new Intent(getApplicationContext(),StartReceiver.class);
+                intent.setAction("ALARM_START");
                 sender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 if (sender != null) { am.cancel(sender); sender.cancel();}
                 finish();

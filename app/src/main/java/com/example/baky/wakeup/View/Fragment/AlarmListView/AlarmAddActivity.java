@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.baky.wakeup.R;
 import com.example.baky.wakeup.Util.StartReceiver;
+import com.example.baky.wakeup.View.Calendar.CalendarData;
 import com.example.baky.wakeup.View.Fragment.AlarmListTest;
 import com.example.baky.wakeup.View.Fragment.AlarmTab;
 import com.example.baky.wakeup.View.MainActivity;
@@ -129,6 +130,12 @@ public class AlarmAddActivity extends Activity {
                 calendar.set(Calendar.MINUTE,minute);
                 calendar.set(Calendar.SECOND,0);
 
+                if(admin.equals("30분전")){
+                    calendar.add(Calendar.MINUTE,-30);
+                } else if(admin.equals("15분전")){
+                    calendar.add(Calendar.MINUTE,-15);
+                }
+
                 mAlarmIntent = new Intent(getApplicationContext(), StartReceiver.class);
                 mAlarmIntent.putExtra("FLAG",0);
                 Log.d("ddddd","asdf");
@@ -139,9 +146,6 @@ public class AlarmAddActivity extends Activity {
                         calendar.getTimeInMillis(),
                         mPendingIntent
                 );
-
-
-
                 setResult(0,intent);
                 finish();
             }

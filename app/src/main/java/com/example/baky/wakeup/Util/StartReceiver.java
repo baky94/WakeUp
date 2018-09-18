@@ -19,7 +19,6 @@ public class StartReceiver extends BroadcastReceiver{
             mServiceIntent.putExtra("FLAG",flag);
             context.startService(mServiceIntent);
         } else if(flag == 1){
-            Log.d("dddd","시발");
             Intent mServiceIntent = new Intent(context,CalendarService.class);
             mServiceIntent.putExtra("FLAG",flag);
             mServiceIntent.putExtra("latitude",intent.getDoubleExtra("latitude",0));
